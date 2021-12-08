@@ -1,0 +1,32 @@
+public void flatten() {
+		////System.out.println("printing orginal string");
+		////System.out.println(this.convertToString(0));
+		
+		ArrayList<Expression> childrenLeft = new ArrayList<Expression>(children);// make copy
+		ArrayList<Expression> finalChildren = new ArrayList<Expression>();;
+		ArrayList<Expression> childrenToAdd = new ArrayList<Expression>();
+		for(int i=0; i<children.size();i++) {
+			String[] lines = children.get(i).convertToString(0).split("\t");
+			String[] first = lines[0].split("\n");
+			//used to find childrens data
+			
+			children.get(i).flatten();//flatten children
+			
+			//if child is the same as this node then dealt it and add its data to this node
+			if(first[0].equals(data) ) {
+				childrenLeft.set(i,null);
+				
+				//good practice for casting
+				if(children.get(i) instanceof CompoundExpression) {
+					
+					for(Expression e : ((CompoundExpressNode) children.get(i)).children) {
+						e.flatten();
+						childrenToAdd.add(e);
+						
+					}
+					
+				}
+				
+			}
+			
+		}
